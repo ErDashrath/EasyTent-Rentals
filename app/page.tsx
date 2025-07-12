@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -25,9 +27,22 @@ export default function EasytentRentals() {
   const phoneNumber = "070587 82520"
   const whatsappNumber = "917058782520" // Indian format for WhatsApp
   const businessAddress = "Matoshree Sadan, near Balaji Mandir Road, Nerul West, Nerul, Navi Mumbai, Maharashtra 400706"
+  const googleMapsEmbedUrl =
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.9000000000005!2d73.01148400000001!3d19.0335567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c3f764a9b8af%3A0x41162d6e08e5fe80!2sMatoshree%20Sadan%2C%20near%20Balaji%20Mandir%20Road%2C%20Nerul%20West%2C%20Nerul%2C%20Navi%20Mumbai%2C%20Maharashtra%20400706!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" // Placeholder timestamp
+  const googleMapsDirectionsUrl =
+    "https://www.google.com/maps/dir//Matoshree+Sadan,+near+Balaji+Mandir+Road,+Nerul+West,+Nerul,+Navi+Mumbai,+Maharashtra+400706/@19.0335384,72.9316573,26778m/data=!3m1!1e3!4m8!4m7!1m0!1m5!1m1!1s0x3be7c3f764a9b8af:0x41162d6e08e5fe80!2m2!1d73.014059!2d19.0335567?hl=en&authuser=0&entry=ttu"
+
   const [days, setDays] = useState([3])
   const [isVisible, setIsVisible] = useState(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
+
+  // Form state
+  const [customerName, setCustomerName] = useState("")
+  const [customerPhone, setCustomerPhone] = useState("")
+  const [rentalDays, setRentalDays] = useState(3) // Default to 3 days
+  const [deliveryRequired, setDeliveryRequired] = useState<"yes" | "no" | null>(null)
+  const [startDate, setStartDate] = useState("") // New state for start date
+  const [phoneError, setPhoneError] = useState<string | null>(null) // State for phone number validation error
 
   const priceCalculatorRef = useRef<HTMLElement>(null)
   const bookingFormRef = useRef<HTMLElement>(null)
@@ -105,6 +120,49 @@ export default function EasytentRentals() {
       description: "Reliable service with excellent customer satisfaction",
     },
   ]
+
+  // Function to validate Indian phone number
+  const isValidIndianPhoneNumber = (phone: string) => {
+    // Regex for 10 digits, starting with 6, 7, 8, or 9
+    const phoneRegex = /^[6-9]\d{9}$/
+    return phoneRegex.test(phone)
+  }
+
+  const handleSubmitBooking = (e: React.FormEvent) => {
+    e.preventDefault()
+
+    // Validate phone number
+    if (!isValidIndianPhoneNumber(customerPhone)) {
+      setPhoneError("Please enter a valid 10-digit Indian phone number (starts with 6-9).")
+      return
+    } else {
+      setPhoneError(null) // Clear error if valid
+    }
+
+    if (!customerName || !customerPhone || !rentalDays || deliveryRequired === null || !startDate) {
+      alert("Please fill in all required fields.")
+      return
+    }
+
+    const bookingMessage = `
+Hello Easytent Rentals,
+
+I would like to book a 4-Person Tent with the following details:
+
+Name: ${customerName}
+Phone Number: ${customerPhone}
+Rental Duration: ${rentalDays} ${rentalDays === 1 ? "day" : "days"}
+Start Date: ${startDate}
+Delivery Required: ${deliveryRequired === "yes" ? "Yes" : "No"}
+
+Total Estimated Cost: ₹${getPricing(rentalDays).total.toLocaleString()}
+
+Please confirm the booking and further steps. Thank you!
+  `.trim()
+
+    const encodedMessage = encodeURIComponent(bookingMessage)
+    window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, "_blank")
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800">
@@ -301,41 +359,109 @@ export default function EasytentRentals() {
         </div>
       </section>
 
-     <form className="space-y-6">
-  <div>
-    <label className="block text-sm font-medium text-green-400 mb-2">Full Name *</label>
-    <Input
-      placeholder="Enter your full name"
-      className="border-gray-600 focus:border-green-500 bg-gray-700 text-gray-100 placeholder-gray-400"
-    />
-  </div>
-  <div>
-    <label className="block text-sm font-medium text-green-400 mb-2">Phone Number *</label>
-    <Input
-      placeholder="Enter your phone number"
-      className="border-gray-600 focus:border-green-500 bg-gray-700 text-gray-100 placeholder-gray-400"
-    />
-  </div>
-
-  {/* ✅ Start Date Field */}
-  <div>
-    <label className="block text-sm font-medium text-green-400 mb-2">Start Date *</label>
-    <Input
-      type="date"
-      className="border-gray-600 focus:border-green-500 bg-gray-700 text-gray-100 placeholder-gray-400"
-    />
-  </div>
-
-  <div>
-    <label className="block text-sm font-medium text-green-400 mb-2">Number of Days *</label>
-    <Input
-      type="number"
-      min="1"
-      max="7"
-      defaultValue="3"
-      className="border-gray-600 focus:border-green-500 bg-gray-700 text-gray-100"
-    />
-  </div>
+      {/* Booking Form */}
+      <section ref={bookingFormRef} className="py-16 px-4 bg-gradient-to-br from-slate-900 to-gray-900">
+        <div className="container mx-auto max-w-2xl">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-green-400 mb-12">Quick Booking Form</h2>
+          <Card className="shadow-xl border-gray-700 bg-gray-800">
+            <CardContent className="p-8">
+              <form onSubmit={handleSubmitBooking} className="space-y-6">
+                <div>
+                  <label htmlFor="customerName" className="block text-sm font-medium text-green-400 mb-2">
+                    Full Name *
+                  </label>
+                  <Input
+                    id="customerName"
+                    placeholder="Enter your full name"
+                    className="border-gray-600 focus:border-green-500 bg-gray-700 text-gray-100 placeholder-gray-400"
+                    value={customerName}
+                    onChange={(e) => setCustomerName(e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="customerPhone" className="block text-sm font-medium text-green-400 mb-2">
+                    Phone Number *
+                  </label>
+                  <Input
+                    id="customerPhone"
+                    type="tel"
+                    placeholder="Enter your phone number"
+                    className={`border-gray-600 focus:border-green-500 bg-gray-700 text-gray-100 placeholder-gray-400 ${phoneError ? "border-red-500" : ""}`}
+                    value={customerPhone}
+                    onChange={(e) => {
+                      setCustomerPhone(e.target.value)
+                      if (phoneError) setPhoneError(null) // Clear error as user types
+                    }}
+                    required
+                  />
+                  {phoneError && <p className="text-red-400 text-sm mt-1">{phoneError}</p>}
+                </div>
+                <div>
+                  <label htmlFor="startDate" className="block text-sm font-medium text-green-400 mb-2">
+                    Start Date *
+                  </label>
+                  <Input
+                    id="startDate"
+                    type="date"
+                    className="border-gray-600 focus:border-green-500 bg-gray-700 text-gray-100 placeholder-gray-400"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="rentalDays" className="block text-sm font-medium text-green-400 mb-2">
+                    Number of Days *
+                  </label>
+                  <Input
+                    id="rentalDays"
+                    type="number"
+                    min="1"
+                    max="7"
+                    className="border-gray-600 focus:border-green-500 bg-gray-700 text-gray-100"
+                    value={rentalDays}
+                    onChange={(e) => setRentalDays(Number.parseInt(e.target.value))}
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-green-400 mb-2">Delivery Required?</label>
+                  <div className="flex gap-4 text-gray-300">
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="delivery"
+                        value="yes"
+                        className="mr-2 accent-green-500"
+                        checked={deliveryRequired === "yes"}
+                        onChange={() => setDeliveryRequired("yes")}
+                        required
+                      />
+                      Yes
+                    </label>
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="delivery"
+                        value="no"
+                        className="mr-2 accent-green-500"
+                        checked={deliveryRequired === "no"}
+                        onChange={() => setDeliveryRequired("no")}
+                        required
+                      />
+                      No
+                    </label>
+                  </div>
+                </div>
+                <Button type="submit" className="w-full bg-green-600 hover:bg-green-500 text-lg py-6">
+                  Submit Booking Request
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
 
       {/* Terms */}
       <section className="py-16 px-4 bg-gray-800">
@@ -398,7 +524,28 @@ export default function EasytentRentals() {
                   Our Location
                 </h3>
                 <p className="text-gray-300 mb-4">{businessAddress}</p>
-                <div className="flex gap-2">
+                <div className="relative w-full h-64 rounded-lg overflow-hidden mb-4 border border-gray-700">
+                  <iframe
+                    src={googleMapsEmbedUrl}
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen={true}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Easytent Rentals Location"
+                  ></iframe>
+                </div>
+                <a
+                  href={googleMapsDirectionsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-green-400 hover:text-green-300 transition-colors font-medium"
+                >
+                  View on Google Maps
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </a>
+                <div className="flex gap-2 mt-4">
                   <Badge className="bg-green-900/50 text-green-300 border-green-700">4.9 ⭐ Rating</Badge>
                   <Badge className="bg-blue-900/50 text-blue-300 border-blue-700">13 Google Reviews</Badge>
                 </div>
