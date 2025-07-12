@@ -301,56 +301,41 @@ export default function EasytentRentals() {
         </div>
       </section>
 
-      {/* Booking Form */}
-      <section ref={bookingFormRef} className="py-16 px-4 bg-gradient-to-br from-slate-900 to-gray-900">
-        <div className="container mx-auto max-w-2xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-green-400 mb-12">Quick Booking Form</h2>
-          <Card className="shadow-xl border-gray-700 bg-gray-800">
-            <CardContent className="p-8">
-              <form className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-green-400 mb-2">Full Name *</label>
-                  <Input
-                    placeholder="Enter your full name"
-                    className="border-gray-600 focus:border-green-500 bg-gray-700 text-gray-100 placeholder-gray-400"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-green-400 mb-2">Phone Number *</label>
-                  <Input
-                    placeholder="Enter your phone number"
-                    className="border-gray-600 focus:border-green-500 bg-gray-700 text-gray-100 placeholder-gray-400"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-green-400 mb-2">Number of Days *</label>
-                  <Input
-                    type="number"
-                    min="1"
-                    max="7"
-                    defaultValue="3"
-                    className="border-gray-600 focus:border-green-500 bg-gray-700 text-gray-100"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-green-400 mb-2">Delivery Required?</label>
-                  <div className="flex gap-4 text-gray-300">
-                    <label className="flex items-center">
-                      <input type="radio" name="delivery" value="yes" className="mr-2 accent-green-500" />
-                      Yes
-                    </label>
-                    <label className="flex items-center">
-                      <input type="radio" name="delivery" value="no" className="mr-2 accent-green-500" />
-                      No
-                    </label>
-                  </div>
-                </div>
-                <Button className="w-full bg-green-600 hover:bg-green-500 text-lg py-6">Submit Booking Request</Button>
-              </form>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
+     <form className="space-y-6">
+  <div>
+    <label className="block text-sm font-medium text-green-400 mb-2">Full Name *</label>
+    <Input
+      placeholder="Enter your full name"
+      className="border-gray-600 focus:border-green-500 bg-gray-700 text-gray-100 placeholder-gray-400"
+    />
+  </div>
+  <div>
+    <label className="block text-sm font-medium text-green-400 mb-2">Phone Number *</label>
+    <Input
+      placeholder="Enter your phone number"
+      className="border-gray-600 focus:border-green-500 bg-gray-700 text-gray-100 placeholder-gray-400"
+    />
+  </div>
+
+  {/* ✅ Start Date Field */}
+  <div>
+    <label className="block text-sm font-medium text-green-400 mb-2">Start Date *</label>
+    <Input
+      type="date"
+      className="border-gray-600 focus:border-green-500 bg-gray-700 text-gray-100 placeholder-gray-400"
+    />
+  </div>
+
+  <div>
+    <label className="block text-sm font-medium text-green-400 mb-2">Number of Days *</label>
+    <Input
+      type="number"
+      min="1"
+      max="7"
+      defaultValue="3"
+      className="border-gray-600 focus:border-green-500 bg-gray-700 text-gray-100"
+    />
+  </div>
 
       {/* Terms */}
       <section className="py-16 px-4 bg-gray-800">
