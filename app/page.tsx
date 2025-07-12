@@ -333,7 +333,7 @@ Please confirm the booking and further steps. Thank you!
       {/* Gallery */}
       <section className="py-16 px-4 bg-gray-800">
         <div className="container mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-green-400 mb-12">See Our Tents in Action</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-green-400 mb-12">Nature is calling you !!!   </h2>
           <div className="relative max-w-4xl mx-auto">
             <div className="aspect-video rounded-lg overflow-hidden shadow-xl border border-gray-700">
               <Image
