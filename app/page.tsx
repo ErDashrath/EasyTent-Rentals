@@ -83,12 +83,12 @@ export default function EasytentRentals() {
 
   const currentPricing = getPricing(days[0])
 
-  const galleryImages = [
-    "/placeholder.svg?height=400&width=600",
-    "/placeholder.svg?height=400&width=600",
-    "/placeholder.svg?height=400&width=600",
-    "/placeholder.svg?height=400&width=600",
-  ]
+const galleryImages = [
+  "/tent1.jpg",
+  "/tent2.jpg",
+  "/tent3.jpg",
+  "/tent4.jpg",
+]
 
   useEffect(() => {
     setIsVisible(true)
