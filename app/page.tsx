@@ -83,12 +83,7 @@ export default function EasytentRentals() {
 
   const currentPricing = getPricing(days[0])
 
-const galleryImages = [
-  "/tent1.jpg",
-  "/tent2.jpg",
-  "/tent3.jpg",
-  "/tent4.jpg",
-]
+  const galleryImages = ["/tent1.jpg", "/tent2.jpg", "/tent3.jpg", "/tent4.jpg"]
 
   useEffect(() => {
     setIsVisible(true)
@@ -245,13 +240,16 @@ Please confirm the booking and further steps. Thank you!
           <Card className="p-8 shadow-xl border-gray-700 bg-gray-900">
             <CardContent className="space-y-8">
               <div>
-                <label className="block text-lg font-semibold text-green-400 mb-4">
+                <label className="block text-lg font-semibold text-white mb-4">
                   Select Rental Duration: {days[0]} {days[0] === 1 ? "Day" : "Days"}
                 </label>
                 <Slider value={days} onValueChange={setDays} max={7} min={1} step={1} className="w-full" />
-                <div className="flex justify-between text-sm text-gray-400 mt-2">
-                  <span>1 Day</span>
-                  <span>7 Days</span>
+                <div className="flex justify-between text-sm text-gray-400 mt-2 px-1">
+                  {[1, 2, 3, 4, 5, 6, 7].map((num) => (
+                    <span key={num}>
+                      {num} {num === 1 ? "Day" : "Days"}
+                    </span>
+                  ))}
                 </div>
               </div>
 
@@ -333,7 +331,9 @@ Please confirm the booking and further steps. Thank you!
       {/* Gallery */}
       <section className="py-16 px-4 bg-gray-800">
         <div className="container mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-green-400 mb-12">Nature is calling you !!!   </h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-green-400 mb-12">
+            Nature is calling you !!!{" "}
+          </h2>
           <div className="relative max-w-4xl mx-auto">
             <div className="aspect-video rounded-lg overflow-hidden shadow-xl border border-gray-700">
               <Image
