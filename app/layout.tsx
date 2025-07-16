@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: 'EasyTent Rentals | Tent Rental from ₹500/day',
   description: 'Affordable, waterproof 4-person tents for camping, parties, and outdoor events. Clean, quality-checked, and easy to rent.',
   icons: {
-    icon: '/favicon.ico',
+    icon: '/favicon.png',
   },
   openGraph: {
     title: 'EasyTent Rentals | Rent Tents Easily',
@@ -22,6 +22,7 @@ export const metadata: Metadata = {
     ],
     type: 'website',
   },
+    generator: 'v0.dev'
 }
 
 export default function RootLayout({
