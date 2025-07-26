@@ -1,30 +1,68 @@
-# Easytent Website Design
+EasyTent Rentals 🌿
+Welcome to EasyTent Rentals — a simple and affordable tent rental service tailored for events, camping, and small gatherings. This is the official website for our local rental business, designed to make it easier for users to browse, contact, and book tents.
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+🧾 About the Project
+This website was designed using v0.dev and deployed via Vercel. It serves as an online brochure and inquiry portal for EasyTent Rentals.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/dashraths-projects-a1fa5bdf/v0-easytent-website-design)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/rNNgErQQa7Y)
+🛠️ Features
+Clean and mobile-friendly design
 
-## Overview
+Information about services and pricing
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+Contact form for direct customer inquiries
 
-## Deployment
+FAQ section for quick answers
 
-Your project is live at:
+Rental policy and terms preview
 
-**[https://vercel.com/dashraths-projects-a1fa5bdf/v0-easytent-website-design](https://vercel.com/dashraths-projects-a1fa5bdf/v0-easytent-website-design)**
+💻 Getting Started (For Developers)
+Here’s how you can run this website on your local machine:
 
-## Build your app
+1. Clone the repository
+bash
+Copy
+Edit
+git clone https://github.com/ErDashrath/EasyTent-Rentals.git
+cd EasyTent-Rentals
+2. Install dependencies
+Make sure you have Node.js and npm installed. Then run:
 
-Continue building your app on:
+bash
+Copy
+Edit
+npm install
+3. Start the development server
+bash
+Copy
+Edit
+npm run dev
+This will start the local server, usually on http://localhost:3000.
 
-**[https://v0.dev/chat/projects/rNNgErQQa7Y](https://v0.dev/chat/projects/rNNgErQQa7Y)**
+📦 Project Structure
+Typical structure:
 
-## How It Works
+pgsql
+Copy
+Edit
+EasyTent-Rentals/
+├── public/
+├── pages/
+├── components/
+├── styles/
+├── vercel.json
+└── package.json
+📤 Deployment
+This project is auto-deployed via Vercel. Any main branch push will trigger deployment unless blocked via vercel.json.
 
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+To block auto-deploys, use:
+
+json
+Copy
+Edit
+{
+  "git": {
+    "autoDeploy": false
+  }
+}
+📬 Contact
+This project belongs to a small business operated by Dashrath Parekar. For queries or services, reach out through the website's contact form or email listed there.
