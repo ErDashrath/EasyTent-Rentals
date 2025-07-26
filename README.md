@@ -4,15 +4,12 @@ Welcome to EasyTent Rentals — a simple and affordable tent rental service tail
 🧾 About the Project
 This website was designed using v0.dev and deployed via Vercel. It serves as an online brochure and inquiry portal for EasyTent Rentals.
 
-🛠️ Features
+🛠️ Features      
 Clean and mobile-friendly design
-
 Information about services and pricing
-
 Contact form for direct customer inquiries
 
 FAQ section for quick answers
-
 Rental policy and terms preview
 
 💻 Getting Started (For Developers)
