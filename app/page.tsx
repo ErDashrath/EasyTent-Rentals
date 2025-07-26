@@ -38,10 +38,10 @@ const products = {
     icon: <Home className="h-6 w-6" />,
     description: "High-quality waterproof tent perfect for families and small groups",
     images: [
-      "/placeholder.svg?height=400&width=600&text=Premium+Tent+Image+1",
-      "/placeholder.svg?height=400&width=600&text=Premium+Tent+Image+2",
-      "/placeholder.svg?height=400&width=600&text=Premium+Tent+Image+3",
-      "/placeholder.svg?height=400&width=600&text=Premium+Tent+Image+4",
+      "/tent1.jpg",
+      "/tent2.jpg",
+      "/tent3.jpg",
+      "/tent4.jpg",
     ],
     specifications: ["100% Waterproof", "4-Person Capacity", "Easy Setup", "Premium Material", "Wind Resistant"],
     pricing: {
@@ -77,10 +77,10 @@ const products = {
     icon: <Home className="h-6 w-6" />,
     description: "QUECHUA MH100 - Lightweight and easy-to-setup 4-person camping tent",
     images: [
-      "/placeholder.svg?height=400&width=600&text=Decathlon+MH100+Image+1",
-      "/placeholder.svg?height=400&width=600&text=Decathlon+MH100+Image+2",
-      "/placeholder.svg?height=400&width=600&text=Decathlon+MH100+Image+3",
-      "/placeholder.svg?height=400&width=600&text=Decathlon+MH100+Image+4",
+      "/D4img.webp",
+      "/D4img2.webp",
+      "/D4img3.webp",
+      "/D4img4.webp",
     ],
     specifications: ["4.65KG Weight", '54" Height', "4-Person Capacity", "Easy Assembly", "Compact Storage"],
     pricing: {
@@ -99,10 +99,10 @@ const products = {
     icon: <Bed className="h-6 w-6" />,
     description: "Comfortable and warm sleeping bag for a good night's rest outdoors",
     images: [
-      "/placeholder.svg?height=400&width=600&text=Sleeping+Bag+Image+1",
-      "/placeholder.svg?height=400&width=600&text=Sleeping+Bag+Image+2",
-      "/placeholder.svg?height=400&width=600&text=Sleeping+Bag+Image+3",
-      "/placeholder.svg?height=400&width=600&text=Sleeping+Bag+Image+4",
+      "/SBimg1.webp",
+      "/SBimg2.webp",
+      "/SBimg3.webp",
+      "/SBimg4.webp",
     ],
     specifications: ["Temperature Rated", "Comfortable Padding", "Compact Storage", "Easy to Clean", "All Season"],
     pricing: {
@@ -121,10 +121,10 @@ const products = {
     icon: <Flame className="h-6 w-6" />,
     description: "Compact and efficient portable gas burner for outdoor cooking",
     images: [
-      "/placeholder.svg?height=400&width=600&text=Portable+Burner+Image+1",
-      "/placeholder.svg?height=400&width=600&text=Portable+Burner+Image+2",
-      "/placeholder.svg?height=400&width=600&text=Portable+Burner+Image+3",
-      "/placeholder.svg?height=400&width=600&text=Portable+Burner+Image+4",
+      "/placeholder.jpg",
+      "/tent2.jpg",
+      "/tent3.jpg",
+      "/tent4.jpg",
     ],
     specifications: ["Gas Powered", "Compact Design", "Easy Ignition", "Wind Shield", "Safety Features"],
     pricing: {
@@ -143,10 +143,10 @@ const products = {
     icon: <Axe className="h-6 w-6" />,
     description: "Professional steel shaft camp axe for carpentry, camping, hiking & wood cutting",
     images: [
-      "/placeholder.svg?height=400&width=600&text=STANLEY+Camp+Axe+Image+1",
-      "/placeholder.svg?height=400&width=600&text=STANLEY+Camp+Axe+Image+2",
-      "/placeholder.svg?height=400&width=600&text=STANLEY+Camp+Axe+Image+3",
-      "/placeholder.svg?height=400&width=600&text=STANLEY+Camp+Axe+Image+4",
+      "/stanley-axe-1.jpg",
+      "/stanley-axe-2.jpg", 
+      "/stanley-axe-3.jpg",
+      "/stanley-axe-4.jpg",
     ],
     specifications: ["Steel Shaft", "Anti-Rust Properties", "Rubber Handle", "35.6L x 15.2W cm", "Professional Grade"],
     pricing: {
@@ -163,12 +163,16 @@ const products = {
 
 // Separate gallery images for the interactive gallery section
 const galleryImages = [
-  "/placeholder.svg?height=450&width=800&text=Gallery+Image+1",
-  "/placeholder.svg?height=450&width=800&text=Gallery+Image+2",
-  "/placeholder.svg?height=450&width=800&text=Gallery+Image+3",
-  "/placeholder.svg?height=450&width=800&text=Gallery+Image+4",
-  "/placeholder.svg?height=450&width=800&text=Gallery+Image+5",
-  "/placeholder.svg?height=450&width=800&text=Gallery+Image+6",
+  "/tent1.jpg",
+  "/tent2.jpg",
+  "/amazon-basics-1.jpg",
+  "/amazon-basics-2.jpg",
+  "/D4img.webp",
+  "/D4img2.webp",
+  "/SBimg1.webp",
+  "/SBimg2.webp",
+  "/stanley-axe-1.jpg",
+  "/stanley-axe-2.jpg",
 ]
 
 export default function EasytentRentals() {
@@ -515,22 +519,22 @@ Please confirm the booking and further steps. Thank you!
           {/* Tents Section */}
           <div className="mb-12">
             <h3 className="text-2xl font-bold text-green-300 mb-6 text-center">🏕️ Tents Collection</h3>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-8 justify-items-center">
               {productCategories.tents.map((product) => (
                 <Card
                   key={product.id}
-                  className={`group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer border-2 ${
+                  className={`group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer border-2 w-full max-w-sm ${
                     selectedProduct === product.id ? "border-green-500 bg-gray-750" : "border-gray-700 bg-gray-800"
                   } hover:bg-gray-750`}
                   onClick={() => setSelectedProduct(product.id)}
                 >
-                  <CardContent className="p-6 text-center">
-                    <div className="mb-4 flex justify-center group-hover:scale-110 transition-transform duration-300 text-green-400">
+                  <CardContent className="p-4 text-center">
+                    <div className="mb-3 flex justify-center group-hover:scale-110 transition-transform duration-300 text-green-400">
                       {product.icon}
                     </div>
-                    <h3 className="font-bold text-lg text-green-400 mb-2">{product.name}</h3>
-                    <p className="text-gray-300 text-sm mb-3">{product.description}</p>
-                    <div className="text-green-300 font-semibold">From ₹{product.pricing[1].rate}/day</div>
+                    <h3 className="font-bold text-base text-green-400 mb-2">{product.name}</h3>
+                    <p className="text-gray-300 text-xs mb-2 line-clamp-2">{product.description}</p>
+                    <div className="text-green-300 font-semibold text-sm">From ₹{product.pricing[1].rate}/day</div>
                     {product.id === "decathlon-mh100-tent" && (
                       <Badge className="mt-2 bg-blue-900/50 text-blue-300 border-blue-700">QUECHUA Brand</Badge>
                     )}
@@ -546,22 +550,22 @@ Please confirm the booking and further steps. Thank you!
           {/* Accessories Section */}
           <div>
             <h3 className="text-2xl font-bold text-green-300 mb-6 text-center">🎒 Camping Accessories</h3>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto justify-items-center">
               {productCategories.accessories.map((product) => (
                 <Card
                   key={product.id}
-                  className={`group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer border-2 ${
+                  className={`group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer border-2 w-full max-w-sm ${
                     selectedProduct === product.id ? "border-green-500 bg-gray-750" : "border-gray-700 bg-gray-800"
                   } hover:bg-gray-750`}
                   onClick={() => setSelectedProduct(product.id)}
                 >
-                  <CardContent className="p-6 text-center">
-                    <div className="mb-4 flex justify-center group-hover:scale-110 transition-transform duration-300 text-green-400">
+                  <CardContent className="p-4 text-center">
+                    <div className="mb-3 flex justify-center group-hover:scale-110 transition-transform duration-300 text-green-400">
                       {product.icon}
                     </div>
-                    <h3 className="font-bold text-lg text-green-400 mb-2">{product.name}</h3>
-                    <p className="text-gray-300 text-sm mb-3">{product.description}</p>
-                    <div className="text-green-300 font-semibold">From ₹{product.pricing[1].rate}/day</div>
+                    <h3 className="font-bold text-base text-green-400 mb-2">{product.name}</h3>
+                    <p className="text-gray-300 text-xs mb-2 line-clamp-2">{product.description}</p>
+                    <div className="text-green-300 font-semibold text-sm">From ₹{product.pricing[1].rate}/day</div>
                     {product.id === "portable-burner" && (
                       <Badge className="mt-2 bg-red-900/50 text-red-300 border-red-700">Gas Powered</Badge>
                     )}
@@ -584,17 +588,15 @@ Please confirm the booking and further steps. Thank you!
             <p className="text-gray-300 text-lg">See our camping equipment in action</p>
           </div>
 
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-5xl mx-auto">
             {/* Gallery Image Display */}
             <div className="relative">
-              <div className="aspect-video rounded-lg overflow-hidden shadow-xl border border-gray-700 relative bg-gray-800">
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="text-center text-gray-400">
-                    <ImageIcon className="h-16 w-16 mx-auto mb-4" />
-                    <p className="text-lg">Gallery Image {currentGalleryIndex + 1}</p>
-                    <p className="text-sm">Add your equipment photos here</p>
-                  </div>
-                </div>
+              <div className="aspect-[16/9] rounded-lg overflow-hidden shadow-xl border border-gray-700 relative bg-white max-h-100">
+                <img
+                  src={galleryImages[currentGalleryIndex]}
+                  alt={`Gallery Image ${currentGalleryIndex + 1}`}
+                  className="w-full h-full object-contain p-5"
+                />
 
                 {/* Gallery Navigation */}
                 <button
@@ -638,19 +640,80 @@ Please confirm the booking and further steps. Thank you!
 
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-8 items-center">
-              {/* Product Images */}
-              <div className="relative">
-                <div className="aspect-video rounded-lg overflow-hidden shadow-xl border border-gray-700 relative bg-gray-800">
-                  <div className="w-full h-full flex items-center justify-center">
-                    <div className="text-center text-gray-400">
-                      <ImageIcon className="h-16 w-16 mx-auto mb-4" />
-                      <p className="text-lg">{currentProduct.name}</p>
-                      <p className="text-sm">
-                        Image {currentImageIndex + 1} of {currentProduct.images.length}
-                      </p>
-                      <p className="text-xs mt-2">Add product photos here</p>
-                    </div>
+              {/* Product Details - Now on Left */}
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-2xl font-bold text-green-400 mb-6">Specifications</h3>
+                  <div className="grid grid-cols-1 gap-4">
+                    {currentProduct.specifications.map((spec, index) => (
+                      <div key={index} className="flex items-center gap-3 text-gray-300">
+                        <CheckCircle className="h-5 w-5 text-green-500" />
+                        <span className="text-base">{spec}</span>
+                      </div>
+                    ))}
                   </div>
+                </div>
+
+                {/* Special badges for specific products */}
+                <div className="flex flex-wrap gap-3">
+                  {currentProduct.id === "decathlon-mh100-tent" && (
+                    <>
+                      <Badge className="bg-blue-900/50 text-blue-300 border-blue-700 text-base px-4 py-2">QUECHUA Brand</Badge>
+                      <Badge className="bg-green-900/50 text-green-300 border-green-700 text-base px-4 py-2">4.65KG Weight</Badge>
+                    </>
+                  )}
+                  {currentProduct.id === "amazon-basics-tent" && (
+                    <Badge className="bg-orange-900/50 text-orange-300 border-orange-700 text-base px-4 py-2">Amazon Basics Quality</Badge>
+                  )}
+                  {currentProduct.id === "portable-burner" && (
+                    <Badge className="bg-red-900/50 text-red-300 border-red-700 text-base px-4 py-2">Outdoor Cooking</Badge>
+                  )}
+                  {currentProduct.id === "stanley-camp-axe" && (
+                    <>
+                      <Badge className="bg-gray-900/50 text-gray-300 border-gray-700 text-base px-4 py-2">STANLEY Brand</Badge>
+                      <Badge className="bg-yellow-900/50 text-yellow-300 border-yellow-700 text-base px-4 py-2">Professional Grade</Badge>
+                    </>
+                  )}
+                </div>
+
+                {/* Product Navigation */}
+                <div className="flex items-center justify-between pt-4">
+                  <button
+                    onClick={prevProduct}
+                    className="flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors text-lg"
+                  >
+                    <ChevronLeft className="h-5 w-5" />
+                    Previous
+                  </button>
+                  <div className="flex gap-3">
+                    {productKeys.map((key, index) => (
+                      <button
+                        key={key}
+                        onClick={() => setSelectedProduct(key)}
+                        className={`w-3 h-3 rounded-full transition-colors ${
+                          selectedProduct === key ? "bg-green-500" : "bg-gray-600"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                  <button
+                    onClick={nextProduct}
+                    className="flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors text-lg"
+                  >
+                    Next
+                    <ChevronRight className="h-5 w-5" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Product Images - Now on Right with 16:9 aspect ratio */}
+              <div className="relative">
+                <div className="aspect-[16/9] rounded-lg overflow-hidden shadow-xl border border-gray-700 relative bg-white">
+                  <img
+                    src={currentProduct.images[currentImageIndex]}
+                    alt={`${currentProduct.name} - Image ${currentImageIndex + 1}`}
+                    className="w-full h-full object-contain p-6"
+                  />
 
                   {/* Image Navigation */}
                   <button
@@ -678,72 +741,6 @@ Please confirm the booking and further steps. Thank you!
                       }`}
                     />
                   ))}
-                </div>
-              </div>
-
-              {/* Product Details */}
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-xl font-bold text-green-400 mb-4">Specifications</h3>
-                  <div className="grid grid-cols-1 gap-3">
-                    {currentProduct.specifications.map((spec, index) => (
-                      <div key={index} className="flex items-center gap-2 text-gray-300">
-                        <CheckCircle className="h-4 w-4 text-green-500" />
-                        <span className="text-sm">{spec}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Special badges for specific products */}
-                <div className="flex flex-wrap gap-2">
-                  {currentProduct.id === "decathlon-mh100-tent" && (
-                    <>
-                      <Badge className="bg-blue-900/50 text-blue-300 border-blue-700">QUECHUA Brand</Badge>
-                      <Badge className="bg-green-900/50 text-green-300 border-green-700">4.65KG Weight</Badge>
-                    </>
-                  )}
-                  {currentProduct.id === "amazon-basics-tent" && (
-                    <Badge className="bg-orange-900/50 text-orange-300 border-orange-700">Amazon Basics Quality</Badge>
-                  )}
-                  {currentProduct.id === "portable-burner" && (
-                    <Badge className="bg-red-900/50 text-red-300 border-red-700">Outdoor Cooking</Badge>
-                  )}
-                  {currentProduct.id === "stanley-camp-axe" && (
-                    <>
-                      <Badge className="bg-gray-900/50 text-gray-300 border-gray-700">STANLEY Brand</Badge>
-                      <Badge className="bg-yellow-900/50 text-yellow-300 border-yellow-700">Professional Grade</Badge>
-                    </>
-                  )}
-                </div>
-
-                {/* Product Navigation */}
-                <div className="flex items-center justify-between">
-                  <button
-                    onClick={prevProduct}
-                    className="flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors"
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                    Previous
-                  </button>
-                  <div className="flex gap-2">
-                    {productKeys.map((key, index) => (
-                      <button
-                        key={key}
-                        onClick={() => setSelectedProduct(key)}
-                        className={`w-2 h-2 rounded-full transition-colors ${
-                          selectedProduct === key ? "bg-green-500" : "bg-gray-600"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <button
-                    onClick={nextProduct}
-                    className="flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors"
-                  >
-                    Next
-                    <ChevronRight className="h-4 w-4" />
-                  </button>
                 </div>
               </div>
             </div>
@@ -875,18 +872,18 @@ Please confirm the booking and further steps. Thank you!
       <section className="py-16 px-4 bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800">
         <div className="container mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-center text-green-400 mb-12">Why Choose Easytent?</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
             {advantages.map((advantage, index) => (
               <Card
                 key={index}
                 className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-gray-700 bg-gray-800 hover:bg-gray-750"
               >
-                <CardContent className="p-6 text-center">
-                  <div className="mb-4 flex justify-center group-hover:scale-110 transition-transform duration-300">
+                <CardContent className="p-4 text-center">
+                  <div className="mb-3 flex justify-center group-hover:scale-110 transition-transform duration-300">
                     {advantage.icon}
                   </div>
-                  <h3 className="font-bold text-lg text-green-400 mb-2">{advantage.title}</h3>
-                  <p className="text-gray-300">{advantage.description}</p>
+                  <h3 className="font-bold text-base text-green-400 mb-2">{advantage.title}</h3>
+                  <p className="text-gray-300 text-sm">{advantage.description}</p>
                 </CardContent>
               </Card>
             ))}
