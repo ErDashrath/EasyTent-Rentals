@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import { Slider } from "@/components/ui/slider"
 import { Badge } from "@/components/ui/badge"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import {
   Phone,
   MessageCircle,
@@ -20,36 +21,29 @@ import {
   ArrowRight,
   Calendar,
   IndianRupee,
+  ChevronLeft,
+  ChevronRight,
+  Bed,
+  Home,
+  Flame,
+  Axe,
 } from "lucide-react"
-import Image from "next/image"
 
-export default function EasytentRentals() {
-  const phoneNumber = "070587 82520"
-  const whatsappNumber = "917058782520" // Indian format for WhatsApp
-  const businessAddress = "Matoshree Sadan, near Balaji Mandir Road, Nerul West, Nerul, Navi Mumbai, Maharashtra 400706"
-  const googleMapsEmbedUrl =
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.9000000000005!2d73.01148400000001!3d19.0335567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c3f764a9b8af%3A0x41162d6e08e5fe80!2sMatoshree%20Sadan%2C%20near%20Balaji%20Mandir%20Road%2C%20Nerul%20West%2C%20Nerul%2C%20Navi%20Mumbai%2C%20Maharashtra%20400706!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" // Placeholder timestamp
-  const googleMapsDirectionsUrl =
-    "https://www.google.com/maps/dir//Matoshree+Sadan,+near+Balaji+Mandir+Road,+Nerul+West,+Nerul,+Navi+Mumbai,+Maharashtra+400706/@19.0335384,72.9316573,26778m/data=!3m1!1e3!4m8!4m7!1m0!1m5!1m1!1s0x3be7c3f764a9b8af:0x41162d6e08e5fe80!2m2!1d73.014059!2d19.0335567?hl=en&authuser=0&entry=ttu"
-
-  const [days, setDays] = useState([3])
-  const [isVisible, setIsVisible] = useState(false)
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
-
-  // Form state
-  const [customerName, setCustomerName] = useState("")
-  const [customerPhone, setCustomerPhone] = useState("")
-  const [rentalDays, setRentalDays] = useState(3) // Default to 3 days
-  const [deliveryRequired, setDeliveryRequired] = useState<"yes" | "no" | null>(null)
-  const [startDate, setStartDate] = useState("") // New state for start date
-  const [phoneError, setPhoneError] = useState<string | null>(null) // State for phone number validation error
-
-  const priceCalculatorRef = useRef<HTMLElement>(null)
-  const bookingFormRef = useRef<HTMLElement>(null)
-
-  // Pricing logic
-  const getPricing = (numDays: number) => {
-    const rates = {
+// Updated product data structure with proper image names
+const products = {
+  "premium-4-person-tent": {
+    id: "premium-4-person-tent",
+    name: "Premium 4-Person Tent",
+    icon: <Home className="h-6 w-6" />,
+    description: "High-quality waterproof tent perfect for families and small groups",
+    images: [
+      "/premium-tent-exterior.jpg",
+      "/premium-tent-interior.jpg",
+      "/premium-tent-setup.jpg",
+      "/premium-tent-packed.jpg",
+    ],
+    specifications: ["100% Waterproof", "4-Person Capacity", "Easy Setup", "Premium Material", "Wind Resistant"],
+    pricing: {
       1: { rate: 500, total: 500 },
       2: { rate: 395, total: 790 },
       3: { rate: 330, total: 990 },
@@ -57,12 +51,159 @@ export default function EasytentRentals() {
       5: { rate: 295, total: 1475 },
       6: { rate: 290, total: 1740 },
       7: { rate: 285, total: 1995 },
-    }
+    },
+  },
+  "amazon-basics-tent": {
+    id: "amazon-basics-tent",
+    name: "Amazon Basics 4-Person Tent",
+    icon: <Home className="h-6 w-6" />,
+    description: "Reliable and affordable 4-person tent from Amazon Basics",
+    images: ["/amazon-basics-1.jpg", "/amazon-basics-2.jpg", "/amazon-basics-3.jpg", "/amazon-basics-4.jpg"],
+    specifications: ["Weather Resistant", "4-Person Capacity", "Quick Setup", "Durable Frame", "Ventilation System"],
+    pricing: {
+      1: { rate: 450, total: 450 },
+      2: { rate: 350, total: 700 },
+      3: { rate: 300, total: 900 },
+      4: { rate: 280, total: 1120 },
+      5: { rate: 265, total: 1325 },
+      6: { rate: 260, total: 1560 },
+      7: { rate: 255, total: 1785 },
+    },
+  },
+  "decathlon-mh100-tent": {
+    id: "decathlon-mh100-tent",
+    name: "Decathlon MH100 4-Person Tent",
+    icon: <Home className="h-6 w-6" />,
+    description: "QUECHUA MH100 - Lightweight and easy-to-setup 4-person camping tent",
+    images: [
+      "/decathlon-tent-exterior.jpg",
+      "/decathlon-tent-interior.jpg",
+      "/decathlon-tent-assembly.jpg",
+      "/decathlon-tent-specs.jpg",
+    ],
+    specifications: ["4.65KG Weight", '54" Height', "4-Person Capacity", "Easy Assembly", "Compact Storage"],
+    pricing: {
+      1: { rate: 480, total: 480 },
+      2: { rate: 375, total: 750 },
+      3: { rate: 320, total: 960 },
+      4: { rate: 300, total: 1200 },
+      5: { rate: 285, total: 1425 },
+      6: { rate: 280, total: 1680 },
+      7: { rate: 275, total: 1925 },
+    },
+  },
+  "sleeping-bag": {
+    id: "sleeping-bag",
+    name: "Sleeping Bag",
+    icon: <Bed className="h-6 w-6" />,
+    description: "Comfortable and warm sleeping bag for a good night's rest outdoors",
+    images: [
+      "/sleeping-bag-open.jpg",
+      "/sleeping-bag-closed.jpg",
+      "/sleeping-bag-person.jpg",
+      "/sleeping-bag-packed.jpg",
+    ],
+    specifications: ["Temperature Rated", "Comfortable Padding", "Compact Storage", "Easy to Clean", "All Season"],
+    pricing: {
+      1: { rate: 150, total: 150 },
+      2: { rate: 125, total: 250 },
+      3: { rate: 100, total: 300 },
+      4: { rate: 90, total: 360 },
+      5: { rate: 85, total: 425 },
+      6: { rate: 80, total: 480 },
+      7: { rate: 75, total: 525 },
+    },
+  },
+  "portable-burner": {
+    id: "portable-burner",
+    name: "Portable Burner",
+    icon: <Flame className="h-6 w-6" />,
+    description: "Compact and efficient portable gas burner for outdoor cooking",
+    images: [
+      "/portable-burner-main.jpg",
+      "/portable-burner-cooking.jpg",
+      "/portable-burner-parts.jpg",
+      "/portable-burner-packed.jpg",
+    ],
+    specifications: ["Gas Powered", "Compact Design", "Easy Ignition", "Wind Shield", "Safety Features"],
+    pricing: {
+      1: { rate: 200, total: 200 },
+      2: { rate: 175, total: 350 },
+      3: { rate: 150, total: 450 },
+      4: { rate: 140, total: 560 },
+      5: { rate: 135, total: 675 },
+      6: { rate: 130, total: 780 },
+      7: { rate: 125, total: 875 },
+    },
+  },
+  "stanley-camp-axe": {
+    id: "stanley-camp-axe",
+    name: "STANLEY Camp Axe",
+    icon: <Axe className="h-6 w-6" />,
+    description: "Professional steel shaft camp axe for carpentry, camping, hiking & wood cutting",
+    images: ["/stanley-axe-main.jpg", "/stanley-axe-handle.jpg", "/stanley-axe-action.jpg", "/stanley-axe-specs.jpg"],
+    specifications: ["Steel Shaft", "Anti-Rust Properties", "Rubber Handle", "35.6L x 15.2W cm", "Professional Grade"],
+    pricing: {
+      1: { rate: 180, total: 180 },
+      2: { rate: 160, total: 320 },
+      3: { rate: 140, total: 420 },
+      4: { rate: 130, total: 520 },
+      5: { rate: 125, total: 625 },
+      6: { rate: 120, total: 720 },
+      7: { rate: 115, total: 805 },
+    },
+  },
+}
 
-    const pricing = rates[numDays as keyof typeof rates]
-    const originalTotal = numDays * 500
+// Updated gallery images with proper names
+const galleryImages = [
+  "/gallery-camping-setup.jpg",
+  "/gallery-tent-night.jpg",
+  "/gallery-cooking-outdoor.jpg",
+  "/gallery-hiking-gear.jpg",
+  "/gallery-family-camping.jpg",
+  "/gallery-equipment-display.jpg",
+]
+
+export default function EasytentRentals() {
+  const phoneNumber = "070587 82520"
+  const whatsappNumber = "917058782520"
+  const businessAddress = "Matoshree Sadan, near Balaji Mandir Road, Nerul West, Nerul, Navi Mumbai, Maharashtra 400706"
+  const googleMapsEmbedUrl =
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.9000000000005!2d73.01148400000001!3d19.0335567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c3f764a9b8af%3A0x41162d6e08e5fe80!2sMatoshree%20Sadan%2C%20near%20Balaji%20Mandir%20Road%2C%20Nerul%20West%2C%20Nerul%2C%20Navi%20Mumbai%2C%20Maharashtra%20400706!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+  const googleMapsDirectionsUrl =
+    "https://www.google.com/maps/dir//Matoshree+Sadan,+near+Balaji+Mandir+Road,+Nerul+West,+Nerul,+Navi+Mumbai,+Maharashtra+400706/@19.0335384,72.9316573,26778m/data=!3m1!1e3!4m8!4m7!1m0!1m5!1m1!1s0x3be7c3f764a9b8af:0x41162d6e08e5fe80!2m2!1d73.014059!2d19.0335567?hl=en&authuser=0&entry=ttu"
+
+  const [selectedProduct, setSelectedProduct] = useState("premium-4-person-tent")
+  const [days, setDays] = useState([3])
+  const [isVisible, setIsVisible] = useState(false)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [currentProductIndex, setCurrentProductIndex] = useState(0)
+  const [currentGalleryIndex, setCurrentGalleryIndex] = useState(0)
+  const [justAdded, setJustAdded] = useState(false)
+
+  // Form state
+  const [customerName, setCustomerName] = useState("")
+  const [customerPhone, setCustomerPhone] = useState("")
+  const [selectedProducts, setSelectedProducts] = useState<{ [key: string]: number }>({})
+  const [startDate, setStartDate] = useState("")
+  const [deliveryRequired, setDeliveryRequired] = useState<"yes" | "no" | null>(null)
+  const [phoneError, setPhoneError] = useState<string | null>(null)
+
+  const priceCalculatorRef = useRef<HTMLElement>(null)
+  const bookingFormRef = useRef<HTMLElement>(null)
+  const productsRef = useRef<HTMLElement>(null)
+
+  const currentProduct = products[selectedProduct as keyof typeof products]
+  const productKeys = Object.keys(products)
+
+  // Pricing logic
+  const getPricing = (productId: string, numDays: number) => {
+    const product = products[productId as keyof typeof products]
+    const pricing = product.pricing[numDays as keyof typeof product.pricing]
+    const originalTotal = numDays * product.pricing[1].rate
     const savings = originalTotal - pricing.total
-    const discountPercent = Math.round((savings / originalTotal) * 100)
+    const discountPercent = savings > 0 ? Math.round((savings / originalTotal) * 100) : 0
 
     return { ...pricing, savings, discountPercent, originalTotal }
   }
@@ -81,15 +222,36 @@ export default function EasytentRentals() {
     })
   }
 
-  const currentPricing = getPricing(days[0])
+  const scrollToProducts = () => {
+    productsRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    })
+  }
 
-  const galleryImages = ["/tent1.jpg", "/tent2.jpg", "/tent3.jpg", "/tent4.jpg"]
+  const currentPricing = getPricing(selectedProduct, days[0])
 
   useEffect(() => {
     setIsVisible(true)
     const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % galleryImages.length)
+      setCurrentImageIndex((prev) => (prev + 1) % currentProduct.images.length)
     }, 4000)
+    return () => clearInterval(interval)
+  }, [currentProduct.images.length])
+
+  // Auto-rotate products in hero section
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentProductIndex((prev) => (prev + 1) % productKeys.length)
+    }, 3000)
+    return () => clearInterval(interval)
+  }, [productKeys.length])
+
+  // Auto-rotate gallery images
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentGalleryIndex((prev) => (prev + 1) % galleryImages.length)
+    }, 5000)
     return () => clearInterval(interval)
   }, [])
 
@@ -97,12 +259,12 @@ export default function EasytentRentals() {
     {
       icon: <Droplets className="h-8 w-8 text-blue-600" />,
       title: "100% Waterproof",
-      description: "Premium quality tents that keep you dry in any weather",
+      description: "Premium quality equipment that keeps you dry in any weather",
     },
     {
       icon: <Shield className="h-8 w-8 text-green-600" />,
       title: "Sanitized & Quality Checked",
-      description: "Every tent is thoroughly cleaned and inspected before rental",
+      description: "Every item is thoroughly cleaned and inspected before rental",
     },
     {
       icon: <Clock className="h-8 w-8 text-yellow-600" />,
@@ -116,41 +278,84 @@ export default function EasytentRentals() {
     },
   ]
 
-  // Function to validate Indian phone number
   const isValidIndianPhoneNumber = (phone: string) => {
-    // Regex for 10 digits, starting with 6, 7, 8, or 9
     const phoneRegex = /^[6-9]\d{9}$/
     return phoneRegex.test(phone)
+  }
+
+  const addProductToSelection = (productId: string, days: number) => {
+    setSelectedProducts((prev) => ({
+      ...prev,
+      [productId]: days,
+    }))
+    setJustAdded(true)
+    // Reset the "just added" state after 3 seconds
+    setTimeout(() => setJustAdded(false), 3000)
+  }
+
+  const handleAddMore = () => {
+    setJustAdded(false)
+  }
+
+  const removeProductFromSelection = (productId: string) => {
+    setSelectedProducts((prev) => {
+      const newSelection = { ...prev }
+      delete newSelection[productId]
+      return newSelection
+    })
+  }
+
+  const calculateTotalBookingCost = () => {
+    return Object.entries(selectedProducts).reduce((total, [productId, days]) => {
+      return total + getPricing(productId, days).total
+    }, 0)
   }
 
   const handleSubmitBooking = (e: React.FormEvent) => {
     e.preventDefault()
 
-    // Validate phone number
     if (!isValidIndianPhoneNumber(customerPhone)) {
       setPhoneError("Please enter a valid 10-digit Indian phone number (starts with 6-9).")
       return
     } else {
-      setPhoneError(null) // Clear error if valid
+      setPhoneError(null)
     }
 
-    if (!customerName || !customerPhone || !rentalDays || deliveryRequired === null || !startDate) {
-      alert("Please fill in all required fields.")
+    if (
+      !customerName ||
+      !customerPhone ||
+      Object.keys(selectedProducts).length === 0 ||
+      deliveryRequired === null ||
+      !startDate
+    ) {
+      alert("Please fill in all required fields and select at least one product.")
       return
     }
+
+    const productDetails = Object.entries(selectedProducts)
+      .map(([productId, days]) => {
+        const product = products[productId as keyof typeof products]
+        const pricing = getPricing(productId, days)
+        return `${product.name}: ${days} ${days === 1 ? "day" : "days"} - ₹${pricing.total.toLocaleString()}`
+      })
+      .join("\n")
+
+    const totalCost = calculateTotalBookingCost()
 
     const bookingMessage = `
 Hello Easytent Rentals,
 
-I would like to book a 4-Person Tent with the following details:
+I would like to book the following items:
 
 Name: ${customerName}
 Phone Number: ${customerPhone}
-Rental Duration: ${rentalDays} ${rentalDays === 1 ? "day" : "days"}
 Start Date: ${startDate}
 Delivery Required: ${deliveryRequired === "yes" ? "Yes" : "No"}
 
-Total Estimated Cost: ₹${getPricing(rentalDays).total.toLocaleString()}
+Products:
+${productDetails}
+
+Total Estimated Cost: ₹${totalCost.toLocaleString()}
 
 Please confirm the booking and further steps. Thank you!
 `.trim()
@@ -159,12 +364,65 @@ Please confirm the booking and further steps. Thank you!
     window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, "_blank")
   }
 
+  const nextProduct = () => {
+    const currentIndex = productKeys.indexOf(selectedProduct)
+    const nextIndex = (currentIndex + 1) % productKeys.length
+    setSelectedProduct(productKeys[nextIndex])
+    setCurrentImageIndex(0)
+  }
+
+  const prevProduct = () => {
+    const currentIndex = productKeys.indexOf(selectedProduct)
+    const prevIndex = currentIndex === 0 ? productKeys.length - 1 : currentIndex - 1
+    setSelectedProduct(productKeys[prevIndex])
+    setCurrentImageIndex(0)
+  }
+
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % currentProduct.images.length)
+  }
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => (prev === 0 ? currentProduct.images.length - 1 : prev - 1))
+  }
+
+  const nextGalleryImage = () => {
+    setCurrentGalleryIndex((prev) => (prev + 1) % galleryImages.length)
+  }
+
+  const prevGalleryImage = () => {
+    setCurrentGalleryIndex((prev) => (prev === 0 ? galleryImages.length - 1 : prev - 1))
+  }
+
+  // Group products by category for better display
+  const productCategories = {
+    tents: Object.values(products).filter((p) => p.name.toLowerCase().includes("tent")),
+    accessories: Object.values(products).filter((p) => !p.name.toLowerCase().includes("tent")),
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800">
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-gray-900/95 backdrop-blur-md z-50 border-b border-gray-700">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="font-bold text-2xl text-green-400">Easytent</div>
+          <div className="hidden md:flex gap-6 text-sm">
+            <button onClick={scrollToProducts} className="text-gray-300 hover:text-green-400 transition-colors">
+              Products
+            </button>
+            <button onClick={scrollToPriceCalculator} className="text-gray-300 hover:text-green-400 transition-colors">
+              Pricing
+            </button>
+            <button onClick={scrollToBookingForm} className="text-gray-300 hover:text-green-400 transition-colors">
+              Book Now
+            </button>
+            <button
+              onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" })}
+              className="text-gray-300 hover:text-green-400 transition-colors"
+            >
+              Contact
+            </button>
+          </div>
           <div className="flex gap-4">
             <Button
               variant="outline"
@@ -180,7 +438,7 @@ Please confirm the booking and further steps. Thank you!
               className="bg-green-600 hover:bg-green-500"
               onClick={() =>
                 window.open(
-                  `https://wa.me/${whatsappNumber}?text=Hi! I'm interested in renting a 4-person tent. Can you help me with pricing and availability?`,
+                  `https://wa.me/${whatsappNumber}?text=Hi! I'm interested in renting camping equipment. Can you help me with pricing and availability?`,
                   "_blank",
                 )
               }
@@ -201,19 +459,33 @@ Please confirm the booking and further steps. Thank you!
           <h1 className="text-4xl md:text-6xl font-bold text-green-400 mb-6 leading-tight">
             Easytent Rentals
             <span className="block text-2xl md:text-3xl text-green-300 font-normal mt-2">
-              Your One-Stop Tent Rental Hub
+              Your Complete Camping Equipment Hub
             </span>
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
-            Planning a party, camping, or outdoor event? We've got you covered — literally
+            From premium tents to camp axes, portable burners and sleeping bags — we've got everything for your outdoor
+            adventure
           </p>
+
+          {/* Rotating Product Showcase */}
+          <div className="mb-8">
+            <div className="flex items-center justify-center gap-4 text-green-300">
+              <div className="flex items-center gap-2">
+                {products[productKeys[currentProductIndex] as keyof typeof products].icon}
+                <span className="text-lg font-medium">
+                  {products[productKeys[currentProductIndex] as keyof typeof products].name}
+                </span>
+              </div>
+              <span className="text-gray-400">•</span>
+              <span className="text-sm">
+                Starting from ₹{products[productKeys[currentProductIndex] as keyof typeof products].pricing[1].rate}/day
+              </span>
+            </div>
+          </div>
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-            <Button
-              size="lg"
-              className="bg-green-600 hover:bg-green-500 text-lg px-8 py-4"
-              onClick={scrollToPriceCalculator}
-            >
-              Check Prices
+            <Button size="lg" className="bg-green-600 hover:bg-green-500 text-lg px-8 py-4" onClick={scrollToProducts}>
+              View Products
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button
@@ -229,6 +501,258 @@ Please confirm the booking and further steps. Thank you!
         </div>
       </section>
 
+      {/* Products Showcase */}
+      <section ref={productsRef} className="py-16 px-4 bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800">
+        <div className="container mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-green-400 mb-12">Our Product Range</h2>
+
+          {/* Tents Section */}
+          <div className="mb-12">
+            <h3 className="text-2xl font-bold text-green-300 mb-6 text-center">🏕️ Tents Collection</h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              {productCategories.tents.map((product) => (
+                <Card
+                  key={product.id}
+                  className={`group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer border-2 ${
+                    selectedProduct === product.id ? "border-green-500 bg-gray-750" : "border-gray-700 bg-gray-800"
+                  } hover:bg-gray-750`}
+                  onClick={() => setSelectedProduct(product.id)}
+                >
+                  <CardContent className="p-6 text-center">
+                    <div className="mb-4 flex justify-center group-hover:scale-110 transition-transform duration-300 text-green-400">
+                      {product.icon}
+                    </div>
+                    <h3 className="font-bold text-lg text-green-400 mb-2">{product.name}</h3>
+                    <p className="text-gray-300 text-sm mb-3">{product.description}</p>
+                    <div className="text-green-300 font-semibold">From ₹{product.pricing[1].rate}/day</div>
+                    {product.id === "decathlon-mh100-tent" && (
+                      <Badge className="mt-2 bg-blue-900/50 text-blue-300 border-blue-700">QUECHUA Brand</Badge>
+                    )}
+                    {product.id === "amazon-basics-tent" && (
+                      <Badge className="mt-2 bg-orange-900/50 text-orange-300 border-orange-700">Amazon Basics</Badge>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          {/* Accessories Section */}
+          <div>
+            <h3 className="text-2xl font-bold text-green-300 mb-6 text-center">🎒 Camping Accessories</h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {productCategories.accessories.map((product) => (
+                <Card
+                  key={product.id}
+                  className={`group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer border-2 ${
+                    selectedProduct === product.id ? "border-green-500 bg-gray-750" : "border-gray-700 bg-gray-800"
+                  } hover:bg-gray-750`}
+                  onClick={() => setSelectedProduct(product.id)}
+                >
+                  <CardContent className="p-6 text-center">
+                    <div className="mb-4 flex justify-center group-hover:scale-110 transition-transform duration-300 text-green-400">
+                      {product.icon}
+                    </div>
+                    <h3 className="font-bold text-lg text-green-400 mb-2">{product.name}</h3>
+                    <p className="text-gray-300 text-sm mb-3">{product.description}</p>
+                    <div className="text-green-300 font-semibold">From ₹{product.pricing[1].rate}/day</div>
+                    {product.id === "portable-burner" && (
+                      <Badge className="mt-2 bg-red-900/50 text-red-300 border-red-700">Gas Powered</Badge>
+                    )}
+                    {product.id === "stanley-camp-axe" && (
+                      <Badge className="mt-2 bg-gray-900/50 text-gray-300 border-gray-700">STANLEY Brand</Badge>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Interactive Product Gallery - Now separate from product images */}
+      <section className="py-16 px-4 bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800">
+        <div className="container mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-green-400 mb-4">Equipment Gallery</h2>
+            <p className="text-gray-300 text-lg">See our camping equipment in action</p>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            {/* Gallery Image Display */}
+            <div className="relative">
+              <div className="aspect-video rounded-lg overflow-hidden shadow-xl border border-gray-700 relative bg-gray-800">
+                <img
+                  src={galleryImages[currentGalleryIndex] || "/placeholder.svg"}
+                  alt={`Gallery image ${currentGalleryIndex + 1}`}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    // Show placeholder if image doesn't exist
+                    const target = e.target as HTMLImageElement
+                    target.src = `/placeholder.svg?height=450&width=800&text=${encodeURIComponent("Gallery Image " + (currentGalleryIndex + 1))}`
+                  }}
+                />
+
+                {/* Gallery Navigation */}
+                <button
+                  onClick={prevGalleryImage}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+                <button
+                  onClick={nextGalleryImage}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+              </div>
+
+              {/* Gallery Indicators */}
+              <div className="flex justify-center mt-4 gap-2">
+                {galleryImages.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentGalleryIndex(index)}
+                    className={`w-3 h-3 rounded-full transition-colors ${
+                      index === currentGalleryIndex ? "bg-green-500" : "bg-gray-600"
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Product Details Section */}
+      <section className="py-16 px-4 bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800">
+        <div className="container mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-green-400 mb-4">{currentProduct.name}</h2>
+            <p className="text-gray-300 text-lg">{currentProduct.description}</p>
+          </div>
+
+          <div className="max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-8 items-center">
+              {/* Product Images */}
+              <div className="relative">
+                <div className="aspect-video rounded-lg overflow-hidden shadow-xl border border-gray-700 relative bg-gray-800">
+                  <img
+                    src={currentProduct.images[currentImageIndex] || "/placeholder.svg"}
+                    alt={`${currentProduct.name} - Image ${currentImageIndex + 1}`}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      // Show placeholder if image doesn't exist
+                      const target = e.target as HTMLImageElement
+                      if (currentProduct.id === "decathlon-mh100-tent") {
+                        // For Decathlon tent, show a descriptive placeholder
+                        target.src = `/placeholder.svg?height=400&width=600&text=${encodeURIComponent("Decathlon QUECHUA MH100 Tent")}`
+                      } else {
+                        target.src = `/placeholder.svg?height=400&width=600&text=${encodeURIComponent(currentProduct.name + " Image " + (currentImageIndex + 1))}`
+                      }
+                    }}
+                  />
+
+                  {/* Image Navigation */}
+                  <button
+                    onClick={prevImage}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors"
+                  >
+                    <ChevronLeft className="h-5 w-5" />
+                  </button>
+                  <button
+                    onClick={nextImage}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors"
+                  >
+                    <ChevronRight className="h-5 w-5" />
+                  </button>
+                </div>
+
+                {/* Image Indicators */}
+                <div className="flex justify-center mt-4 gap-2">
+                  {currentProduct.images.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentImageIndex(index)}
+                      className={`w-3 h-3 rounded-full transition-colors ${
+                        index === currentImageIndex ? "bg-green-500" : "bg-gray-600"
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Product Details */}
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-xl font-bold text-green-400 mb-4">Specifications</h3>
+                  <div className="grid grid-cols-1 gap-3">
+                    {currentProduct.specifications.map((spec, index) => (
+                      <div key={index} className="flex items-center gap-2 text-gray-300">
+                        <CheckCircle className="h-4 w-4 text-green-500" />
+                        <span className="text-sm">{spec}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Special badges for specific products */}
+                <div className="flex flex-wrap gap-2">
+                  {currentProduct.id === "decathlon-mh100-tent" && (
+                    <>
+                      <Badge className="bg-blue-900/50 text-blue-300 border-blue-700">QUECHUA Brand</Badge>
+                      <Badge className="bg-green-900/50 text-green-300 border-green-700">4.65KG Weight</Badge>
+                    </>
+                  )}
+                  {currentProduct.id === "amazon-basics-tent" && (
+                    <Badge className="bg-orange-900/50 text-orange-300 border-orange-700">Amazon Basics Quality</Badge>
+                  )}
+                  {currentProduct.id === "portable-burner" && (
+                    <Badge className="bg-red-900/50 text-red-300 border-red-700">Outdoor Cooking</Badge>
+                  )}
+                  {currentProduct.id === "stanley-camp-axe" && (
+                    <>
+                      <Badge className="bg-gray-900/50 text-gray-300 border-gray-700">STANLEY Brand</Badge>
+                      <Badge className="bg-yellow-900/50 text-yellow-300 border-yellow-700">Professional Grade</Badge>
+                    </>
+                  )}
+                </div>
+
+                {/* Product Navigation */}
+                <div className="flex items-center justify-between">
+                  <button
+                    onClick={prevProduct}
+                    className="flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                    Previous
+                  </button>
+                  <div className="flex gap-2">
+                    {productKeys.map((key, index) => (
+                      <button
+                        key={key}
+                        onClick={() => setSelectedProduct(key)}
+                        className={`w-2 h-2 rounded-full transition-colors ${
+                          selectedProduct === key ? "bg-green-500" : "bg-gray-600"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                  <button
+                    onClick={nextProduct}
+                    className="flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors"
+                  >
+                    Next
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Price Calculator */}
       <section
         ref={priceCalculatorRef}
@@ -236,23 +760,44 @@ Please confirm the booking and further steps. Thank you!
       >
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-green-400 mb-4">4-Person Tent Rental</h2>
-            <p className="text-gray-300 text-lg">Perfect for small groups, families, and intimate gatherings</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-green-400 mb-4">Pricing Calculator</h2>
+            <p className="text-gray-300 text-lg">Calculate rental costs for any of our products</p>
           </div>
 
           <Card className="p-8 shadow-xl border-gray-700 bg-gray-900">
             <CardContent className="space-y-8">
-              <div>
-                <label className="block text-lg font-semibold text-white mb-4">
-                  Select Rental Duration: {days[0]} {days[0] === 1 ? "Day" : "Days"}
-                </label>
-                <Slider value={days} onValueChange={setDays} max={7} min={1} step={1} className="w-full" />
-                <div className="flex justify-between text-sm text-gray-400 mt-2 px-1">
-                  {[1, 2, 3, 4, 5, 6, 7].map((num) => (
-                    <span key={num}>
-                      {num} {num === 1 ? "Day" : "Days"}
-                    </span>
-                  ))}
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-lg font-semibold text-white mb-4">Select Product</label>
+                  <Select value={selectedProduct} onValueChange={setSelectedProduct}>
+                    <SelectTrigger className="border-gray-600 focus:border-green-500 bg-gray-700 text-gray-100">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-gray-800 border-gray-600">
+                      {Object.values(products).map((product) => (
+                        <SelectItem key={product.id} value={product.id} className="text-gray-100 focus:bg-gray-700">
+                          <div className="flex items-center gap-2">
+                            {product.icon}
+                            {product.name}
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <label className="block text-lg font-semibold text-white mb-4">
+                    Rental Duration: {days[0]} {days[0] === 1 ? "Day" : "Days"}
+                  </label>
+                  <Slider value={days} onValueChange={setDays} max={7} min={1} step={1} className="w-full" />
+                  <div className="flex justify-between text-sm text-gray-400 mt-2 px-1">
+                    {[1, 2, 3, 4, 5, 6, 7].map((num) => (
+                      <span key={num}>
+                        {num} {num === 1 ? "Day" : "Days"}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
 
@@ -280,27 +825,47 @@ Please confirm the booking and further steps. Thank you!
                   )}
                 </div>
               </div>
-
+              {justAdded && (
+                <div className="bg-green-900/30 border border-green-700 rounded-lg p-4 mb-4">
+                  <div className="flex items-center text-green-300">
+                    <CheckCircle className="h-5 w-5 mr-2" />
+                    <span className="font-medium">{currentProduct.name} added to your booking!</span>
+                  </div>
+                  <p className="text-green-400 text-sm mt-1">
+                    You can continue adding more products or proceed to the booking form below.
+                  </p>
+                </div>
+              )}
               <div className="flex flex-col sm:flex-row gap-4">
+                {!justAdded ? (
+                  <Button
+                    className="flex-1 bg-green-600 hover:bg-green-500 text-lg py-6"
+                    onClick={() => addProductToSelection(selectedProduct, days[0])}
+                  >
+                    Add to Booking
+                  </Button>
+                ) : (
+                  <div className="flex-1 flex gap-2">
+                    <Button className="flex-1 bg-green-700 text-lg py-6 cursor-default" disabled>
+                      <CheckCircle className="mr-2 h-5 w-5" />
+                      Added to Booking!
+                    </Button>
+                    <Button className="bg-blue-600 hover:bg-blue-500 text-lg py-6 px-6" onClick={handleAddMore}>
+                      Add More
+                    </Button>
+                  </div>
+                )}
                 <Button
-                  className="flex-1 bg-green-600 hover:bg-green-500 text-lg py-6"
+                  className="flex-1 bg-blue-600 hover:bg-blue-500 text-lg py-6"
                   onClick={() =>
                     window.open(
-                      `https://wa.me/${whatsappNumber}?text=Hi! I'd like to book a 4-person tent for ${days[0]} ${days[0] === 1 ? "day" : "days"}. The total cost is ₹${currentPricing.total.toLocaleString()}. Please confirm availability.`,
+                      `https://wa.me/${whatsappNumber}?text=Hi! I'd like to book a ${currentProduct.name} for ${days[0]} ${days[0] === 1 ? "day" : "days"}. The total cost is ₹${currentPricing.total.toLocaleString()}. Please confirm availability.`,
                       "_blank",
                     )
                   }
                 >
                   <MessageCircle className="mr-2 h-5 w-5" />
-                  Book via WhatsApp
-                </Button>
-                <Button
-                  variant="outline"
-                  className="flex-1 text-lg py-6 border-green-500 text-green-400 bg-transparent hover:bg-green-900/20"
-                  onClick={() => window.open(`tel:${phoneNumber}`, "_self")}
-                >
-                  <Phone className="mr-2 h-5 w-5" />
-                  Call to Book
+                  Quick Book via WhatsApp
                 </Button>
               </div>
             </CardContent>
@@ -331,138 +896,146 @@ Please confirm the booking and further steps. Thank you!
         </div>
       </section>
 
-      {/* Gallery */}
-      <section className="py-16 px-4 bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800">
-        <div className="container mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-green-400 mb-12">
-            Nature is calling you !!!{" "}
-          </h2>
-          <div className="relative max-w-4xl mx-auto">
-            <div className="aspect-video rounded-lg overflow-hidden shadow-xl border border-gray-700">
-              <Image
-                src={galleryImages[currentImageIndex] || "/placeholder.svg"}
-                alt={`Tent setup ${currentImageIndex + 1}`}
-                width={800}
-                height={450}
-                className="w-full h-full object-cover transition-opacity duration-500"
-              />
-            </div>
-            <div className="flex justify-center mt-6 gap-2">
-              {galleryImages.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentImageIndex(index)}
-                  className={`w-3 h-3 rounded-full transition-colors ${
-                    index === currentImageIndex ? "bg-green-500" : "bg-gray-600"
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Booking Form */}
       <section ref={bookingFormRef} className="py-16 px-4 bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800">
-        <div className="container mx-auto max-w-2xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-green-400 mb-12">Quick Booking Form</h2>
-          <Card className="shadow-xl border-gray-700 bg-gray-800">
-            <CardContent className="p-8">
-              <form onSubmit={handleSubmitBooking} className="space-y-6">
-                <div>
-                  <label htmlFor="customerName" className="block text-sm font-medium text-green-400 mb-2">
-                    Full Name *
-                  </label>
-                  <Input
-                    id="customerName"
-                    placeholder="Enter your full name"
-                    className="border-gray-600 focus:border-green-500 bg-gray-700 text-gray-100 placeholder-gray-400"
-                    value={customerName}
-                    onChange={(e) => setCustomerName(e.target.value)}
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="customerPhone" className="block text-sm font-medium text-green-400 mb-2">
-                    Phone Number *
-                  </label>
-                  <Input
-                    id="customerPhone"
-                    type="tel"
-                    placeholder="Enter your phone number"
-                    className={`border-gray-600 focus:border-green-500 bg-gray-700 text-gray-100 placeholder-gray-400 ${phoneError ? "border-red-500" : ""}`}
-                    value={customerPhone}
-                    onChange={(e) => {
-                      setCustomerPhone(e.target.value)
-                      if (phoneError) setPhoneError(null) // Clear error as user types
-                    }}
-                    required
-                  />
-                  {phoneError && <p className="text-red-400 text-sm mt-1">{phoneError}</p>}
-                </div>
-                <div>
-                  <label htmlFor="startDate" className="block text-sm font-medium text-green-400 mb-2">
-                    Start Date *
-                  </label>
-                  <Input
-                    id="startDate"
-                    type="date"
-                    className="border-gray-600 focus:border-green-500 bg-gray-700 text-gray-100 placeholder-gray-400"
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="rentalDays" className="block text-sm font-medium text-green-400 mb-2">
-                    Number of Days *
-                  </label>
-                  <Input
-                    id="rentalDays"
-                    type="number"
-                    min="1"
-                    max="7"
-                    className="border-gray-600 focus:border-green-500 bg-gray-700 text-gray-100"
-                    value={rentalDays}
-                    onChange={(e) => setRentalDays(Number.parseInt(e.target.value))}
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-green-400 mb-2">Delivery Required?</label>
-                  <div className="flex gap-4 text-gray-300">
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        name="delivery"
-                        value="yes"
-                        className="mr-2 accent-green-500"
-                        checked={deliveryRequired === "yes"}
-                        onChange={() => setDeliveryRequired("yes")}
-                        required
-                      />
-                      Yes
-                    </label>
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        name="delivery"
-                        value="no"
-                        className="mr-2 accent-green-500"
-                        checked={deliveryRequired === "no"}
-                        onChange={() => setDeliveryRequired("no")}
-                        required
-                      />
-                      No
-                    </label>
+        <div className="container mx-auto max-w-4xl">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-green-400 mb-12">Complete Booking Form</h2>
+
+          <div className="grid lg:grid-cols-2 gap-8">
+            {/* Selected Products Summary */}
+            <Card className="shadow-xl border-gray-700 bg-gray-800">
+              <CardContent className="p-6">
+                <h3 className="text-xl font-bold text-green-400 mb-4">Selected Products</h3>
+                {Object.keys(selectedProducts).length === 0 ? (
+                  <p className="text-gray-400">No products selected. Use the price calculator above to add products.</p>
+                ) : (
+                  <div className="space-y-3">
+                    {Object.entries(selectedProducts).map(([productId, days]) => {
+                      const product = products[productId as keyof typeof products]
+                      const pricing = getPricing(productId, days)
+                      return (
+                        <div key={productId} className="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
+                          <div className="flex items-center gap-3">
+                            {product.icon}
+                            <div>
+                              <div className="text-green-400 font-medium">{product.name}</div>
+                              <div className="text-gray-300 text-sm">
+                                {days} {days === 1 ? "day" : "days"}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-green-400 font-bold">₹{pricing.total.toLocaleString()}</div>
+                            <button
+                              onClick={() => removeProductFromSelection(productId)}
+                              className="text-red-400 hover:text-red-300 text-sm"
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        </div>
+                      )
+                    })}
+                    <div className="border-t border-gray-600 pt-3 mt-3">
+                      <div className="flex justify-between items-center text-lg font-bold">
+                        <span className="text-green-400">Total:</span>
+                        <span className="text-green-400">₹{calculateTotalBookingCost().toLocaleString()}</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <Button type="submit" className="w-full bg-green-600 hover:bg-green-500 text-lg py-6">
-                  Submit Booking Request
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Booking Form */}
+            <Card className="shadow-xl border-gray-700 bg-gray-800">
+              <CardContent className="p-6">
+                <h3 className="text-xl font-bold text-green-400 mb-4">Customer Details</h3>
+                <form onSubmit={handleSubmitBooking} className="space-y-4">
+                  <div>
+                    <label htmlFor="customerName" className="block text-sm font-medium text-green-400 mb-2">
+                      Full Name *
+                    </label>
+                    <Input
+                      id="customerName"
+                      placeholder="Enter your full name"
+                      className="border-gray-600 focus:border-green-500 bg-gray-700 text-gray-100 placeholder-gray-400"
+                      value={customerName}
+                      onChange={(e) => setCustomerName(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="customerPhone" className="block text-sm font-medium text-green-400 mb-2">
+                      Phone Number *
+                    </label>
+                    <Input
+                      id="customerPhone"
+                      type="tel"
+                      placeholder="Enter your phone number"
+                      className={`border-gray-600 focus:border-green-500 bg-gray-700 text-gray-100 placeholder-gray-400 ${phoneError ? "border-red-500" : ""}`}
+                      value={customerPhone}
+                      onChange={(e) => {
+                        setCustomerPhone(e.target.value)
+                        if (phoneError) setPhoneError(null)
+                      }}
+                      required
+                    />
+                    {phoneError && <p className="text-red-400 text-sm mt-1">{phoneError}</p>}
+                  </div>
+                  <div>
+                    <label htmlFor="startDate" className="block text-sm font-medium text-green-400 mb-2">
+                      Start Date *
+                    </label>
+                    <Input
+                      id="startDate"
+                      type="date"
+                      className="border-gray-600 focus:border-green-500 bg-gray-700 text-gray-100 placeholder-gray-400"
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-green-400 mb-2">Delivery Required?</label>
+                    <div className="flex gap-4 text-gray-300">
+                      <label className="flex items-center">
+                        <input
+                          type="radio"
+                          name="delivery"
+                          value="yes"
+                          className="mr-2 accent-green-500"
+                          checked={deliveryRequired === "yes"}
+                          onChange={() => setDeliveryRequired("yes")}
+                          required
+                        />
+                        Yes
+                      </label>
+                      <label className="flex items-center">
+                        <input
+                          type="radio"
+                          name="delivery"
+                          value="no"
+                          className="mr-2 accent-green-500"
+                          checked={deliveryRequired === "no"}
+                          onChange={() => setDeliveryRequired("no")}
+                          required
+                        />
+                        No
+                      </label>
+                    </div>
+                  </div>
+                  <Button
+                    type="submit"
+                    className="w-full bg-green-600 hover:bg-green-500 text-lg py-6"
+                    disabled={Object.keys(selectedProducts).length === 0}
+                  >
+                    Submit Booking Request
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </section>
 
@@ -478,7 +1051,7 @@ Please confirm the booking and further steps. Thank you!
                   Security Deposit
                 </h3>
                 <p className="text-gray-300">
-                  ₹2,500 refundable security deposit required. Fully refunded upon return and condition check.
+                  Security deposit varies by product. Fully refunded upon return and condition check.
                 </p>
               </CardContent>
             </Card>
@@ -491,7 +1064,7 @@ Please confirm the booking and further steps. Thank you!
                 <p className="text-gray-300">Late returns incur daily penalty based on original rental rate.</p>
               </CardContent>
             </Card>
-            <Card className="border-gray-700 bg-gray-900">
+            <Card className="border-gray-700 bg-gray-800">
               <CardContent className="p-6">
                 <h3 className="font-bold text-lg text-green-400 mb-4 flex items-center">
                   <Shield className="mr-2 h-5 w-5 text-green-500" />
@@ -620,7 +1193,7 @@ Please confirm the booking and further steps. Thank you!
           className="rounded-full w-14 h-14 hover:bg-green-600 shadow-lg animate-bounce bg-white"
           onClick={() =>
             window.open(
-              `https://wa.me/${whatsappNumber}?text=Hi! I'm interested in tent rentals. Can you help me?`,
+              `https://wa.me/${whatsappNumber}?text=Hi! I'm interested in camping equipment rentals. Can you help me?`,
               "_blank",
             )
           }
