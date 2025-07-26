@@ -26,10 +26,11 @@ import {
   Bed,
   Home,
   Flame,
+  ImageIcon,
   Axe,
 } from "lucide-react"
 
-// Updated product data structure with proper image names
+// Updated product data structure with the new STANLEY Camp Axe
 const products = {
   "premium-4-person-tent": {
     id: "premium-4-person-tent",
@@ -37,10 +38,10 @@ const products = {
     icon: <Home className="h-6 w-6" />,
     description: "High-quality waterproof tent perfect for families and small groups",
     images: [
-      "/premium-tent-exterior.jpg",
-      "/premium-tent-interior.jpg",
-      "/premium-tent-setup.jpg",
-      "/premium-tent-packed.jpg",
+      "/placeholder.svg?height=400&width=600&text=Premium+Tent+Image+1",
+      "/placeholder.svg?height=400&width=600&text=Premium+Tent+Image+2",
+      "/placeholder.svg?height=400&width=600&text=Premium+Tent+Image+3",
+      "/placeholder.svg?height=400&width=600&text=Premium+Tent+Image+4",
     ],
     specifications: ["100% Waterproof", "4-Person Capacity", "Easy Setup", "Premium Material", "Wind Resistant"],
     pricing: {
@@ -76,10 +77,10 @@ const products = {
     icon: <Home className="h-6 w-6" />,
     description: "QUECHUA MH100 - Lightweight and easy-to-setup 4-person camping tent",
     images: [
-      "/decathlon-tent-exterior.jpg",
-      "/decathlon-tent-interior.jpg",
-      "/decathlon-tent-assembly.jpg",
-      "/decathlon-tent-specs.jpg",
+      "/placeholder.svg?height=400&width=600&text=Decathlon+MH100+Image+1",
+      "/placeholder.svg?height=400&width=600&text=Decathlon+MH100+Image+2",
+      "/placeholder.svg?height=400&width=600&text=Decathlon+MH100+Image+3",
+      "/placeholder.svg?height=400&width=600&text=Decathlon+MH100+Image+4",
     ],
     specifications: ["4.65KG Weight", '54" Height', "4-Person Capacity", "Easy Assembly", "Compact Storage"],
     pricing: {
@@ -98,10 +99,10 @@ const products = {
     icon: <Bed className="h-6 w-6" />,
     description: "Comfortable and warm sleeping bag for a good night's rest outdoors",
     images: [
-      "/sleeping-bag-open.jpg",
-      "/sleeping-bag-closed.jpg",
-      "/sleeping-bag-person.jpg",
-      "/sleeping-bag-packed.jpg",
+      "/placeholder.svg?height=400&width=600&text=Sleeping+Bag+Image+1",
+      "/placeholder.svg?height=400&width=600&text=Sleeping+Bag+Image+2",
+      "/placeholder.svg?height=400&width=600&text=Sleeping+Bag+Image+3",
+      "/placeholder.svg?height=400&width=600&text=Sleeping+Bag+Image+4",
     ],
     specifications: ["Temperature Rated", "Comfortable Padding", "Compact Storage", "Easy to Clean", "All Season"],
     pricing: {
@@ -120,10 +121,10 @@ const products = {
     icon: <Flame className="h-6 w-6" />,
     description: "Compact and efficient portable gas burner for outdoor cooking",
     images: [
-      "/portable-burner-main.jpg",
-      "/portable-burner-cooking.jpg",
-      "/portable-burner-parts.jpg",
-      "/portable-burner-packed.jpg",
+      "/placeholder.svg?height=400&width=600&text=Portable+Burner+Image+1",
+      "/placeholder.svg?height=400&width=600&text=Portable+Burner+Image+2",
+      "/placeholder.svg?height=400&width=600&text=Portable+Burner+Image+3",
+      "/placeholder.svg?height=400&width=600&text=Portable+Burner+Image+4",
     ],
     specifications: ["Gas Powered", "Compact Design", "Easy Ignition", "Wind Shield", "Safety Features"],
     pricing: {
@@ -141,7 +142,12 @@ const products = {
     name: "STANLEY Camp Axe",
     icon: <Axe className="h-6 w-6" />,
     description: "Professional steel shaft camp axe for carpentry, camping, hiking & wood cutting",
-    images: ["/stanley-axe-main.jpg", "/stanley-axe-handle.jpg", "/stanley-axe-action.jpg", "/stanley-axe-specs.jpg"],
+    images: [
+      "/placeholder.svg?height=400&width=600&text=STANLEY+Camp+Axe+Image+1",
+      "/placeholder.svg?height=400&width=600&text=STANLEY+Camp+Axe+Image+2",
+      "/placeholder.svg?height=400&width=600&text=STANLEY+Camp+Axe+Image+3",
+      "/placeholder.svg?height=400&width=600&text=STANLEY+Camp+Axe+Image+4",
+    ],
     specifications: ["Steel Shaft", "Anti-Rust Properties", "Rubber Handle", "35.6L x 15.2W cm", "Professional Grade"],
     pricing: {
       1: { rate: 180, total: 180 },
@@ -155,14 +161,14 @@ const products = {
   },
 }
 
-// Updated gallery images with proper names
+// Separate gallery images for the interactive gallery section
 const galleryImages = [
-  "/gallery-camping-setup.jpg",
-  "/gallery-tent-night.jpg",
-  "/gallery-cooking-outdoor.jpg",
-  "/gallery-hiking-gear.jpg",
-  "/gallery-family-camping.jpg",
-  "/gallery-equipment-display.jpg",
+  "/placeholder.svg?height=450&width=800&text=Gallery+Image+1",
+  "/placeholder.svg?height=450&width=800&text=Gallery+Image+2",
+  "/placeholder.svg?height=450&width=800&text=Gallery+Image+3",
+  "/placeholder.svg?height=450&width=800&text=Gallery+Image+4",
+  "/placeholder.svg?height=450&width=800&text=Gallery+Image+5",
+  "/placeholder.svg?height=450&width=800&text=Gallery+Image+6",
 ]
 
 export default function EasytentRentals() {
@@ -582,16 +588,13 @@ Please confirm the booking and further steps. Thank you!
             {/* Gallery Image Display */}
             <div className="relative">
               <div className="aspect-video rounded-lg overflow-hidden shadow-xl border border-gray-700 relative bg-gray-800">
-                <img
-                  src={galleryImages[currentGalleryIndex] || "/placeholder.svg"}
-                  alt={`Gallery image ${currentGalleryIndex + 1}`}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    // Show placeholder if image doesn't exist
-                    const target = e.target as HTMLImageElement
-                    target.src = `/placeholder.svg?height=450&width=800&text=${encodeURIComponent("Gallery Image " + (currentGalleryIndex + 1))}`
-                  }}
-                />
+                <div className="w-full h-full flex items-center justify-center">
+                  <div className="text-center text-gray-400">
+                    <ImageIcon className="h-16 w-16 mx-auto mb-4" />
+                    <p className="text-lg">Gallery Image {currentGalleryIndex + 1}</p>
+                    <p className="text-sm">Add your equipment photos here</p>
+                  </div>
+                </div>
 
                 {/* Gallery Navigation */}
                 <button
@@ -638,21 +641,16 @@ Please confirm the booking and further steps. Thank you!
               {/* Product Images */}
               <div className="relative">
                 <div className="aspect-video rounded-lg overflow-hidden shadow-xl border border-gray-700 relative bg-gray-800">
-                  <img
-                    src={currentProduct.images[currentImageIndex] || "/placeholder.svg"}
-                    alt={`${currentProduct.name} - Image ${currentImageIndex + 1}`}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      // Show placeholder if image doesn't exist
-                      const target = e.target as HTMLImageElement
-                      if (currentProduct.id === "decathlon-mh100-tent") {
-                        // For Decathlon tent, show a descriptive placeholder
-                        target.src = `/placeholder.svg?height=400&width=600&text=${encodeURIComponent("Decathlon QUECHUA MH100 Tent")}`
-                      } else {
-                        target.src = `/placeholder.svg?height=400&width=600&text=${encodeURIComponent(currentProduct.name + " Image " + (currentImageIndex + 1))}`
-                      }
-                    }}
-                  />
+                  <div className="w-full h-full flex items-center justify-center">
+                    <div className="text-center text-gray-400">
+                      <ImageIcon className="h-16 w-16 mx-auto mb-4" />
+                      <p className="text-lg">{currentProduct.name}</p>
+                      <p className="text-sm">
+                        Image {currentImageIndex + 1} of {currentProduct.images.length}
+                      </p>
+                      <p className="text-xs mt-2">Add product photos here</p>
+                    </div>
+                  </div>
 
                   {/* Image Navigation */}
                   <button
