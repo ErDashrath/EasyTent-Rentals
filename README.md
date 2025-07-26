@@ -1,65 +1,52 @@
-EasyTent Rentals 🌿
-Welcome to EasyTent Rentals — a simple and affordable tent rental service tailored for events, camping, and small gatherings. This is the official website for our local rental business, designed to make it easier for users to browse, contact, and book tents.
+🏕️ EasyTent Rentals
 
-🧾 About the Project
-This website was designed using v0.dev and deployed via Vercel. It serves as an online brochure and inquiry portal for EasyTent Rentals.
+Welcome to **EasyTent Rentals**  your simple and affordable tent rental service for events, camping, and gatherings.
 
-🛠️ Features      
-Clean and mobile-friendly design
-Information about services and pricing
-Contact form for direct customer inquiries
+This is the official website of our rental business, designed with ease of use, clarity, and accessibility in mind.
 
-FAQ section for quick answers
-Rental policy and terms preview
+---
 
-💻 Getting Started (For Developers)
-Here’s how you can run this website on your local machine:
+📖 About the Project
 
-1. Clone the repository
-bash
-Copy
-Edit
-git clone https://github.com/ErDashrath/EasyTent-Rentals.git
+This project was:
+
+- 🛠️ Designed using [v0.dev](https://v0.dev)
+- 🚀 Deployed with [Vercel](https://vercel.com)
+- 🌐 Live on a custom domain for public access
+- 📄 Built as an online brochure + contact point for customers
+
+---
+
+## ✨ Features
+
+- ✅ Clean and mobile-friendly layout  
+- 📌 Information on rental services and pricing  
+- ✉️ Contact form for direct inquiries  
+- ❓ FAQ section  
+- 📃 Rental policy highlights  
+
+---
+
+## 💻 Developer Setup
+
+If you'd like to run the project locally:
+
+### 1️⃣ Clone the Repository
+
+ git clone https://github.com/ErDashrath/EasyTent-Rentals.git
 cd EasyTent-Rentals
-2. Install dependencies
-Make sure you have Node.js and npm installed. Then run:
+
+2. Install Dependencies
+Make sure you have Node.js installed.
 
 bash
 Copy
 Edit
 npm install
-3. Start the development server
+3. Start the Development Server
 bash
 Copy
 Edit
 npm run dev
-This will start the local server, usually on http://localhost:3000.
+Your site will be available at http://localhost:3000.
 
-📦 Project Structure
-Typical structure:
-
-pgsql
-Copy
-Edit
-EasyTent-Rentals/
-├── public/
-├── pages/
-├── components/
-├── styles/
-├── vercel.json
-└── package.json
-📤 Deployment
-This project is auto-deployed via Vercel. Any main branch push will trigger deployment unless blocked via vercel.json.
-
-To block auto-deploys, use:
-
-json
-Copy
-Edit
-{
-  "git": {
-    "autoDeploy": false
-  }
-}
-📬 Contact
-This project belongs to a small business operated by Dashrath Parekar. For queries or services, reach out through the website's contact form or email listed there.
